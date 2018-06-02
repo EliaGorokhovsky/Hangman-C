@@ -27,6 +27,26 @@ int findInstances(char string[], char toFind, int* indices[])
 }
 
 /**
+ * Prints the gallows
+ * progress is a number from 0 to 6 representing the amount of the hanged man to draw
+ * This should correspond to number of incorrect guesses
+ */
+int printGallows(int progress)
+{
+    printf(" _________\n|         |\n");
+    if(progress < 1) printf("|\n");
+    else printf("|         0\n");
+    if(progress < 2) printf("|\n");
+    else if(progress == 2) printf("|         |\n");
+    else if(progress == 3) printf("|        /|\n");
+    else if(progress >= 4) printf("|        /|\\ \n");
+    if(progress < 5) printf("|\n");
+    else if(progress == 5) printf("|        / \n");
+    else printf("|        / \\ \n");
+    printf("|\n|______________\n");
+}
+
+/**
  * Prints the guessed letters of the word or underscores if not guessed correctly
  */
 int printGuessed(char * guessedCorrectly)
@@ -48,13 +68,14 @@ int main()
     char * word = "Helloworld"; //The correct word. Placeholder for now
     char * guessed = ""; //The letters that have already been guessed
     char * guessedCorrectly = malloc(strlen(word) * sizeof(char));
-    PRINTLNINT(strlen(word));
     for(int i = 0; i < strlen(word); i++)
     {
         guessedCorrectly[i] = '_';
     }
     guessedCorrectly[strlen(word)] = '\0';
-    printGuessed(guessedCorrectly);
+    for(int i = 0; i < 7; i++) {
+        printGallows(i);
+    }
     int * indices;
     findInstances(word, 'o', &indices);
     free(guessedCorrectly);
