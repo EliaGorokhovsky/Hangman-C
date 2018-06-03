@@ -68,15 +68,29 @@ int main()
     char * word = "Helloworld"; //The correct word. Placeholder for now
     char * guessed = ""; //The letters that have already been guessed
     char * guessedCorrectly = malloc(strlen(word) * sizeof(char));
+    int incorrectGuesses = 0; //The amount of incorrect guesses that have been made
     for(int i = 0; i < strlen(word); i++)
     {
         guessedCorrectly[i] = '_';
     }
     guessedCorrectly[strlen(word)] = '\0';
-    for(int i = 0; i < 7; i++) {
-        printGallows(i);
+    char guess = '_';
+    while(guessedCorrectly != word)
+    {
+        printGallows(incorrectGuesses);
+        printGuessed(guessedCorrectly);
+        printf("Guess: ");
+        scanf("%c", &guess, 1);
+        printf("\n");
+        guessed = malloc(sizeof(char));
+        guessed[0] = guess;
+        guessed[1] = '\0';
+        printf(guessed);
+        if(strchr(word, guess) == NULL)
+        {
+
+        }
+        //guessedCorrectly = "Helloworld";
     }
-    int * indices;
-    findInstances(word, 'o', &indices);
     free(guessedCorrectly);
 }
