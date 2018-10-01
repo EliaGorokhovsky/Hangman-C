@@ -19,7 +19,7 @@ const char letters[] = "abcdefghijklmnopqrstuvwxyz";
  * progress is a number from 0 to 6 representing the amount of the hanged man to draw
  * This should correspond to number of incorrect guesses
  */
-int printGallows(int progress)
+void printGallows(int progress)
 {
     printf(" _________\n|         |\n");
     if (progress < 1) printf("|\n");
@@ -37,7 +37,7 @@ int printGallows(int progress)
 /**
  * Prints the guessed letters of the word or underscores if not guessed correctly
  */
-int printGuessed(char * guessedCorrectly)
+void printGuessed(char * guessedCorrectly)
 {
     for (int i = 0; i < strlen(guessedCorrectly) - 1; i++)
     {
@@ -45,7 +45,6 @@ int printGuessed(char * guessedCorrectly)
         printf(" ");
     }
     printf("%c\n", guessedCorrectly[strlen(guessedCorrectly) - 1]);
-    return 1;
 }
 
 /**
