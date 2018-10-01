@@ -2,9 +2,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define NELEMS(x)  (sizeof(x) / sizeof((x)[0]))
-#define PRINTLN(x) {printf(x); printf("\n");}
-#define PRINTLNINT(x) {printf("%d", x); printf("\n");}
+//Gets the number of elements in an array by taking the size of the array in bytes divided by the size of the array's first element
+#define NELEMS(x) (sizeof(x) / sizeof((x)[0]))
+
+//Defines a print line function that prints the given argument and then prints a newline afterwards
+#define PRINTLN(x) { printf(x); printf("\n"); }
+
+//Defines a print line function that only takes in integer arguments to print
+#define PRINTLNINT(x) { printf("%d", x); printf("\n"); }
 
 //The guessable letters in the game. All other characters will be printed instead.
 const char letters[] = "abcdefghijklmnopqrstuvwxyz";
@@ -14,17 +19,17 @@ const char letters[] = "abcdefghijklmnopqrstuvwxyz";
  * progress is a number from 0 to 6 representing the amount of the hanged man to draw
  * This should correspond to number of incorrect guesses
  */
-int printGallows(int progress)
+void printGallows(int progress)
 {
     printf(" _________\n|         |\n");
-    if(progress < 1) printf("|\n");
+    if (progress < 1) printf("|\n");
     else printf("|         0\n");
-    if(progress < 2) printf("|\n");
-    else if(progress == 2) printf("|         |\n");
-    else if(progress == 3) printf("|        /|\n");
-    else if(progress >= 4) printf("|        /|\\ \n");
-    if(progress < 5) printf("|\n");
-    else if(progress == 5) printf("|        / \n");
+    if (progress < 2) printf("|\n");
+    else if (progress == 2) printf("|         |\n");
+    else if (progress == 3) printf("|        /|\n");
+    else if (progress >= 4) printf("|        /|\\ \n");
+    if (progress < 5) printf("|\n");
+    else if (progress == 5) printf("|        / \n");
     else printf("|        / \\ \n");
     printf("|\n|______________\n");
 }
@@ -32,15 +37,14 @@ int printGallows(int progress)
 /**
  * Prints the guessed letters of the word or underscores if not guessed correctly
  */
-int printGuessed(char * guessedCorrectly)
+void printGuessed(char * guessedCorrectly)
 {
-    for(int i = 0; i < strlen(guessedCorrectly) - 1; i++)
+    for (int i = 0; i < strlen(guessedCorrectly) - 1; i++)
     {
         printf("%c", guessedCorrectly[i]);
         printf(" ");
     }
     printf("%c\n", guessedCorrectly[strlen(guessedCorrectly) - 1]);
-    return 1;
 }
 
 /**
@@ -49,23 +53,25 @@ int printGuessed(char * guessedCorrectly)
 int main()
 {
     char * word = "hello, world!"; //The correct word. Placeholder for now
-    char guessed[27];
+    char guessed[27]; //27 to hold the length of the alphabet
     int numberOfGuesses = 0;
     char * guessedCorrectly = malloc(strlen(word) * sizeof(char));
     int incorrectGuesses = 0; //The amount of incorrect guesses that have been made
-    for(int i = 0; i < strlen(word); i++)
+    for (int i = 0; i < strlen(word); i++)
     {
-        if(strchr(letters, word[i]) != NULL)
+        if (strchr(letters, word[i]) != NULL)
         {
             guessedCorrectly[i] = '_';
-        } else {
+        }
+        else
+        {
             guessedCorrectly[i] = word[i];
         }
     }
     guessedCorrectly[strlen(word)] = '\0';
     char guess = '_';
     char * placeholder = malloc(128 * sizeof(char));
-    while(strcmp(guessedCorrectly,word) != 0 && incorrectGuesses < 6)
+    while (strcmp(guessedCorrectly,word) != 0 && incorrectGuesses < 6)
     {
         printGallows(incorrectGuesses);
         printGuessed(guessedCorrectly);
@@ -76,22 +82,26 @@ int main()
         guess = placeholder[0];
         printf("\n");
         //Verify that the guess is valid, or notify the player
-        if(strchr(letters, guess) == NULL || strchr(guessed, guess) != NULL)
+        if (strchr(letters, guess) == NULL || strchr(guessed, guess) != NULL)
         {
             PRINTLN("Your guess is invalid.");
-        } else {
+        }
+        else
+        {
             guessed[numberOfGuesses] = guess;
             numberOfGuesses++;
             guessed[numberOfGuesses] = '\0';
-            if(strchr(word, guess) == NULL)
+            if (strchr(word, guess) == NULL)
             {
                 PRINTLN("Incorrect!");
                 incorrectGuesses++;
-            } else {
+            }
+            else
+            {
                 //Replace the letters at the indices of the correctly guessed letters in guessedCorrectly
-                for(int i = 0; i < strlen(word); i++)
+                for (int i = 0; i < strlen(word); i++)
                 {
-                    if(word[i] == guess)
+                    if (word[i] == guess)
                     {
                         guessedCorrectly[i] = guess;
                     }
@@ -100,12 +110,14 @@ int main()
             }
         }
     }
-    if(incorrectGuesses >= 6)
+    if (incorrectGuesses >= 6)
     {
         printGallows(incorrectGuesses);
         printGuessed(guessedCorrectly);
         PRINTLN("You lose... nice try.");
-    } else {
+    }
+    else
+    {
         PRINTLN("You win!");
     }
     free(guessedCorrectly);
